@@ -8,10 +8,15 @@ const UserSchema = new mongoose.Schema({
   profile: {
     phone: { type: String },
     address: { type: String },
-    profilePicture: { type: String }, // Store URL or file reference
-    bio: { type: String }
+    profilePicture: { type: String },
   },
-  createdAt: { type: Date, default: Date.now }
+  createdAt: { type: Date, default: Date.now },
+  isVerified: { type: Boolean, default: false },
+  isVerified: { type: Boolean, default: false },
+  forgotPasswordToken: String,
+  forgotPasswordTokenExpiry: Date,
+  verifyToken: String,
+  verifyTokenExpiry: Date,
 });
 
 module.exports = mongoose.model("User", UserSchema);

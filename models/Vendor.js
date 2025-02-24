@@ -6,10 +6,12 @@ const VendorSchema = new mongoose.Schema({
   password: { type: String, required: true }, // Hashed password
   profile: {
     phone: { type: String },
-    address: [String ],
+    address: [String],
     profilePicture: { type: String }, // Store URL or file reference
     bio: { type: String },
-    occupation: { type: String }
+    occupation: { type: String },
+    experience: { type: Number },
+    city: { type: String },
   },
   createdAt: { type: Date, default: Date.now },
   isVerified: { type: Boolean, default: false },

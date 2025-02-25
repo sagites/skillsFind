@@ -20,7 +20,6 @@ const Signup = asyncHandler(async (req, res) => {
     !email ||
     !password ||
     !confirmPassword ||
-    (!occupation && !experience) ||
     !phone ||
     !city
   ) {
@@ -54,6 +53,7 @@ const Signup = asyncHandler(async (req, res) => {
     newUser = new Vendor({
       email,
       password: hashedPassword,
+      role: "vendor",
       profile: {
         occupation: occupation || "N/A",
         experience: experience || 0,
@@ -63,8 +63,8 @@ const Signup = asyncHandler(async (req, res) => {
     });
     userType = "vendor";
   } else {
-    newUser = new User({ email, password: hashedPassword });
-    userType = "customer";
+    newUser = new User({ email, password: hashedPassword, role: "user" });
+    userType = "user";
   }
 
   await newUser.save();

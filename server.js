@@ -4,12 +4,14 @@ const cluster = require('cluster');
 const express = require('express');
 const connectDB = require('./config/db_config');
 const auth = require('./routes/authRoutes')
+const email = require('./routes/verifyEmail.js')
 
 const app = express();
 app.use(express.json());
 
 //Routes
 app.use('/api/auth', auth)
+app.use('/api/email', email)
 
 const PORT = process.env.PORT || 2500;
 

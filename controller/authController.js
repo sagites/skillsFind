@@ -2,7 +2,7 @@ const User = require("../models/User");
 const Vendor = require("../models/Vendor");
 const asyncHandler = require("express-async-handler");
 const { hashPassword, checkPassword } = require("../utils/hassPassword");
-const sendEmail = require("../utils/mailer");
+const {sendSignUpEmail} = require("../utils/mailer");
 const jwt = require("jsonwebtoken");
 
 const Signup = asyncHandler(async (req, res) => {
@@ -64,7 +64,7 @@ const Signup = asyncHandler(async (req, res) => {
     await newUser.save();
 
     // Send verification email
-    await sendEmail(email, "VERIFY", newUser._id, userType);
+    await sendSignUpEmail(email, "VERIFY", newUser._id, userType);
 
     res.status(201).json({ message: `${userType} registered successfully` });
   } catch (error) {

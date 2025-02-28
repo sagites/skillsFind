@@ -59,7 +59,7 @@ const Signup = asyncHandler(async (req, res) => {
       });
       userType = "vendor";
     } else {
-      newUser = new User({ email, password: hashedPassword, role: "user" });
+      newUser = new User({ email, name, password: hashedPassword, role: "user" });
       userType = "user";
     }
 

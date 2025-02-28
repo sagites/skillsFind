@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const VendorSchema = new mongoose.Schema({
-  name: { type: String },
+  name: { type: String, required: true },
   email: { type: String, unique: true, required: true },
   password: { type: String, required: true }, // Hashed password
   role: { type: String, default: "vendor" },
@@ -16,10 +16,10 @@ const VendorSchema = new mongoose.Schema({
   },
   createdAt: { type: Date, default: Date.now },
   isVerified: { type: Boolean, default: false },
-  forgotPasswordToken: String,
-  forgotPasswordTokenExpiry: Date,
-  verifyToken: String,
-  verifyTokenExpiry: Date,
+  forgotPasswordToken: {type: String},
+  forgotPasswordTokenExpiry: {type: Date},
+  verifyToken: {type: String},
+  verifyTokenExpiry: {type: Date},
 });
 
 module.exports = mongoose.model("Vendor", VendorSchema);

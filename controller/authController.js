@@ -8,6 +8,7 @@ const jwt = require("jsonwebtoken");
 const Signup = asyncHandler(async (req, res) => {
   try {
     const {
+      name,
       email,
       password,
       confirmPassword,
@@ -45,6 +46,7 @@ const Signup = asyncHandler(async (req, res) => {
     // Determine user type
     if (occupation && experience) {
       newUser = new Vendor({
+        name,
         email,
         password: hashedPassword,
         role: "vendor",

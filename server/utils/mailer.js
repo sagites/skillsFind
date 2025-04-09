@@ -25,7 +25,7 @@ const findUserByEmail = async (email) => {
 };
 
 // Send verification or password reset email
-const sendSignUpEmail = async (email, emailType) => {
+const sendEmail = async (email, emailType) => {
   try {
     console.log(`Sending ${emailType} email to ${email}`);
 
@@ -51,18 +51,23 @@ const sendSignUpEmail = async (email, emailType) => {
     const subject =
       emailType === "VERIFY" ? "Verify your email" : "Reset your password";
 
+    const html =
+      emailType === "VERIFY"
+        ? `<p>Please use this token to complete your verification: <b>${token}</b></p>`
+        : `<p>Please use this token to reset your password: <b>${token}</b></p>`;
+
     const mailOptions = {
-      from: "chizzyikemba@gmail.com",
+      from: process.env.COMPANY_EMAIL,
       to: email,
       subject,
-      html: `<p>Please use this token to complete your verification: <b>${token}</b></p>`,
+      html: html,
     };
 
     await transport.sendMail(mailOptions);
 
     return { message: "Email sent and token stored successfully" };
   } catch (error) {
-    console.error("Error in sendSignUpEmail function:", error);
+    console.error("Error in sendEmail function:", error);
     throw new Error(error.message);
   }
 };
@@ -93,11 +98,16 @@ const resendEmail = async (email, emailType) => {
     const subject =
       emailType === "VERIFY" ? "Verify your email" : "Reset your password";
 
+    const html =
+      emailType === "VERIFY"
+        ? `<p>Please use this token to complete your verification: <b>${token}</b></p>`
+        : `<p>Please use this token to reset your password: <b>${token}</b></p>`;
+
     const mailOptions = {
-      from: "chizzyikemba@gmail.com",
+      from: process.env.COMPANY_EMAIL,
       to: email,
       subject,
-      html: `<p>Please use this token to complete your verification: <b>${token}</b></p>`,
+      html: html,
     };
 
     await transport.sendMail(mailOptions);
@@ -146,4 +156,4 @@ const verifyEmail = async (token) => {
   }
 };
 
-module.exports = { sendSignUpEmail, resendEmail, verifyEmail };
+module.exports = { sendEmail, resendEmail, verifyEmail };

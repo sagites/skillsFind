@@ -1,5 +1,5 @@
 const asyncHandler = require('express-async-handler');
-const { verifyEmail, sendSignUpEmail } = require('../utils/mailer'); // Adjust the path as necessary
+const { verifyEmail, sendEmail } = require('../utils/mailer'); // Adjust the path as necessary
 const Vendor = require("../models/Vendor");
 const User = require("../models/User");
 const generateToken = require("../utils/generateToken");
@@ -57,7 +57,7 @@ const resendEmail = asyncHandler(async (req, res) => {
     await user.save();
 
     // Resend verification email
-    await sendSignUpEmail(email, "VERIFY", user._id, userType);
+    await sendEmail(email, "VERIFY", user._id, userType);
 
     res.status(200).json({ message: "Verification email resent successfully" });
   } catch (error) {

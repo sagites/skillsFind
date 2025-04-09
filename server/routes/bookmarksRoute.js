@@ -4,7 +4,7 @@ const {
   bookmarkProfile,
   removeBookmark,
   getBookmarkedProfiles,
-} = require("../controller/bookmarkController");
+} = require("../controller/users/bookmarkController");
 
 router
   .route("/")

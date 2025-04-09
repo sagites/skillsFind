@@ -1,8 +1,8 @@
 const asyncHandler = require("express-async-handler");
 const mongoose = require("mongoose");
-const Bookmark = require("../models/bookmarks")
-const Vendor = require("../models/Vendor");
-const { handleErrorResponse } = require("../utils/handleError");
+const Bookmark = require("../../models/bookmarks")
+const Vendor = require("../../models/Vendor");
+const { handleErrorResponse } = require("../../utils/handleError");
 
 // Bookmark a Profile
 const bookmarkProfile = asyncHandler(async (req, res) => {

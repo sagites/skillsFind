@@ -6,6 +6,8 @@ const connectDB = require('./config/db_config');
 const auth = require('./routes/authRoutes')
 const email = require('./routes/verifyEmail.js');
 const Bookmark = require("./routes/bookmarksRoute.js");
+const forgotPassword = require("./routes/forgotPasswordRoutes.js");
+const listAllServiceProviders = require("./routes/listAllServiceProvidersRoutes.js");
 
 const app = express();
 app.use(express.json());
@@ -14,6 +16,7 @@ app.use(express.json());
 app.use('/api/auth', auth)
 app.use('/api/email', email)
 app.use('/api/bookmark', Bookmark)
+app.use('/api/serviceProvidersList', listAllServiceProviders)
 
 const PORT = process.env.PORT || 2500;
 

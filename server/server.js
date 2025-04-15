@@ -6,7 +6,7 @@ const connectDB = require('./config/db_config');
 const auth = require('./routes/authRoutes')
 const email = require('./routes/verifyEmail.js');
 const Bookmark = require("./routes/bookmarksRoute.js");
-const forgotPassword = require("./routes/forgotPasswordRoutes.js");
+// const forgotPassword = require("./routes/forgotPasswordRoutes.js");
 const listAllServiceProviders = require("./routes/listAllServiceProvidersRoutes.js");
 
 const app = express();

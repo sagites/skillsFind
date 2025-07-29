@@ -18,7 +18,7 @@ const Signup = asyncHandler(async (req, res) => {
       city,
     } = req.body;
 
-    if (!email || !password || !confirmPassword || !phone || !city) {
+    if (!email || !name || !password || !confirmPassword || !phone || !city) {
       return res.status(400).json({ message: "Please input missing field(s)" });
     }
 

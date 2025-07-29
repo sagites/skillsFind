@@ -11,5 +11,5 @@ const getAllVendors = asyncHandler(async (req, res) => {
 });
 
 module.exports = {
-    getAllVendors
-}
+  getAllVendors,
+};

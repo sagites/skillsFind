@@ -2,7 +2,7 @@ const router = require("express").Router();
 const {
   listAllServiceProviders,
   getServiceProvider,
-} = require("../controller/users/listAllServiceProviders");
+} = require("../controller/vendors/listAllServiceProviders");
 const protect = require("../middleware/protect");
 
 router

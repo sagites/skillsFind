@@ -4,14 +4,16 @@ const { handleErrorResponse } = require("../../utils/handleError");
 
 const listAllServiceProviders = asyncHandler(async (req, res) => {
   try {
-    const vendors = await Vendor.find({ isVerified: true }).select("-password -__v -verifyTokenExpiry -verifyToken -forgotPasswordToken -forgotPasswordTokenExpiry");
+    const vendors = await Vendor.find({ isVerified: true }).select(
+      "-password -__v -verifyTokenExpiry -verifyToken -forgotPasswordToken -forgotPasswordTokenExpiry"
+    );
     if (!vendors || vendors.length === 0) {
       return handleErrorResponse(res, 404, "No service providers found");
     }
     res.status(200).json({
       success: true,
       message: "Service providers retrieved successfully",
-      vendors,
+      data: vendors,
     });
   } catch (error) {
     console.error("Error retrieving service providers:", error);
@@ -19,5 +21,29 @@ const listAllServiceProviders = asyncHandler(async (req, res) => {
   }
 });
 
+const getServiceProvider = asyncHandler(async (req, res) => {
+  try {
+    const { id } = req.body;
 
-module.exports = { listAllServiceProviders };
+    if (!id) {
+      return handleErrorResponse(res, 400, "Service provider ID is required");
+    }
+
+    const vendor = await Vendor.findById(id).select(
+      "-password -__v -verifyTokenExpiry -verifyToken -forgotPasswordToken -forgotPasswordTokenExpiry"
+    );
+
+    if (!vendor) {
+      return handleErrorResponse(res, 404, "Service provider not found");
+    }
+
+    res.status(200).json({
+      success: true,
+      data: vendor,
+    });
+  } catch (error) {
+    handleErrorResponse(res, 500, error.message);
+  }
+});
+
+module.exports = { listAllServiceProviders, getServiceProvider };

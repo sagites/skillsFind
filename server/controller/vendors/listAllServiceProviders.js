@@ -3,13 +3,15 @@ const Vendor = require("../../models/Vendor");
 const { handleErrorResponse } = require("../../utils/handleError");
 
 const listAllServiceProviders = asyncHandler(async (req, res) => {
+  console.log(req.accountType);
   try {
-    const vendors = await Vendor.find({ isVerified: true }).select(
+    const vendors = await Vendor.find({ isVerified: false }).select(
       "-password -__v -verifyTokenExpiry -verifyToken -forgotPasswordToken -forgotPasswordTokenExpiry"
     );
     if (!vendors || vendors.length === 0) {
       return handleErrorResponse(res, 404, "No service providers found");
     }
+    
     res.status(200).json({
       success: true,
       message: "Service providers retrieved successfully",

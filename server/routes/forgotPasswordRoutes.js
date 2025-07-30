@@ -4,7 +4,6 @@ const {
   forgotPassword,
   changePassword,
 } = require("../controller/passwordController");
-const protect = require("../middleware/protect");
 
 // @route   POST /api/forgot-password
 // @desc    Send forgot password email

@@ -6,7 +6,10 @@ const protect = async (req, res, next) => {
   let token;
 
   // Check for token in Authorization header
-  if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  ) {
     token = req.headers.authorization.split(" ")[1];
   }
 
@@ -20,12 +23,24 @@ const protect = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     // Try to find user in both collections
-    let account = await User.findById(decoded.userId).select("-password");
-    let accountType = "user";
+    // let account = await User.findById(decoded.userId).select("-password");
+    // let accountType = "user";
 
-    if (!account) {
+    // if (!account) {
+    //   account = await Vendor.findById(decoded.userId).select("-password");
+    //   accountType = account ? "vendor" : null;
+    // }
+
+    let account;
+    let accountType = null;
+
+    account = await User.findById(decoded.userId).select("-password");
+
+    if (account) {
+      accountType = "user";
+    } else {
       account = await Vendor.findById(decoded.userId).select("-password");
-      accountType = account ? "vendor" : null;
+      if (account) accountType = "vendor";
     }
 
     // If account doesn't exist in either collection
@@ -37,6 +52,12 @@ const protect = async (req, res, next) => {
     req.user = account;
     req.userId = account._id;
     req.accountType = accountType;
+
+
+     // Log for testing
+    console.log("Authenticated Request:");
+    console.log("User ID:", req.userId.toString());
+    console.log("Account Type:", req.accountType);
 
     next();
   } catch (error) {

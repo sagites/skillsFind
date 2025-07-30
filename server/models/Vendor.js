@@ -14,6 +14,8 @@ const VendorSchema = new mongoose.Schema({
     experience: { type: Number },
     city: { type: String },
   },
+  averageRating: { type: Number, default: 0 },
+  reviewCount: { type: Number, default: 0 },
   createdAt: { type: Date, default: Date.now },
   isVerified: { type: Boolean, default: false },
   forgotPasswordToken: { type: String },

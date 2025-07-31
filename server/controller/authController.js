@@ -1,9 +1,9 @@
+const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const Vendor = require("../models/Vendor");
+const {sendSignUpEmail} = require("../utils/mailer");
 const asyncHandler = require("express-async-handler");
 const { hashPassword, checkPassword } = require("../utils/hassPassword");
-const {sendSignUpEmail} = require("../utils/mailer");
-const jwt = require("jsonwebtoken");
 
 const Signup = asyncHandler(async (req, res) => {
   try {

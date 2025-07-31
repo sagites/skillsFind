@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const ROLES = require("../utils/roles")
 const protect = require("../middleware/protect");
 const { authorize } = require("../middleware/roleMiddleware");
 const {
@@ -7,7 +8,7 @@ const {
   getAllUsers,
 } = require("../controller/adminController");
 
-router.route("/users/").get(protect, authorize("admin"), getAllUsers);
+router.route("/users/").get(protect, authorize(ROLES.ADMIN, ROLES.SUPERADMIN), getAllUsers);
 router.post("/login", adminLogin).post("/signup", adminSignup);
 
 module.exports = router;

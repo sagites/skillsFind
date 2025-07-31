@@ -3,6 +3,8 @@ const protect = require("../middleware/protect");
 const { authorize } = require("../middleware/roleMiddleware");
 const updateProfile = require("../controller/updateProfile");
 
-router.route("/").put(protect, authorize("vendor", "user"), updateProfile);
+router
+  .route("/")
+  .put(protect, authorize("vendor", "user", "admin", "superadmin"), updateProfile);
 
 module.exports = router;

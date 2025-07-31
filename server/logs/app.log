@@ -47,3 +47,11 @@
 [2025-07-31T18:10:14.965Z] INFO: POST /api/admin/login | Status: 200 | User: Guest | AccountType: N/A | Duration: 325ms
 [2025-07-31T18:10:31.195Z] INFO: GET /api/reviews/vendor/6888e4bfce76584602ea026e/ | Status: 403 | User: 688baaf43e94d1c76e9f1366 | AccountType: superadmin | Duration: 25ms
 [2025-07-31T18:11:11.750Z] INFO: GET /api/reviews/vendor/6888e4bfce76584602ea026e/ | Status: 200 | User: 688baaf43e94d1c76e9f1366 | AccountType: superadmin | Duration: 110ms
+[2025-07-31T21:19:28.849Z] INFO: POST /api/auth/login | Status: 200 | User: Guest | AccountType: N/A | Duration: 112ms
+[2025-07-31T21:19:43.947Z] INFO: DELETE /api/updateProfile | Status: 200 | User: 688b7b7d0175253e99826552 | AccountType: user | Duration: 19ms
+[2025-07-31T21:26:57.300Z] INFO: POST /api/admin/login | Status: 200 | User: Guest | AccountType: N/A | Duration: 119ms
+[2025-07-31T21:28:00.872Z] INFO: POST /api/add-admin | Status: 404 | User: Guest | AccountType: N/A | Duration: 1ms
+[2025-07-31T21:28:21.665Z] INFO: POST /api/admin/login | Status: 200 | User: Guest | AccountType: N/A | Duration: 86ms
+[2025-07-31T21:28:33.957Z] INFO: POST /api/add-admin | Status: 404 | User: Guest | AccountType: N/A | Duration: 1ms
+[2025-07-31T21:28:57.239Z] INFO: POST /api/admin/add-admin | Status: 201 | User: 688baaf43e94d1c76e9f1366 | AccountType: superadmin | Duration: 103ms
+[2025-07-31T21:42:03.675Z] INFO: DELETE /api/admin/remove-admin/688be0191d4fd53fc9837956 | Status: 200 | User: 688baaf43e94d1c76e9f1366 | AccountType: superadmin | Duration: 35ms

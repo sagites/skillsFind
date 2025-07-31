@@ -1,11 +1,22 @@
-const authorize = (...allowedTypes) => {
-  return (req, res, next) => {
-    if (!req.accountType) {
-      return res.status(401).json({ message: "Unauthorized: No account type found" });
-    }
+const ROLES = require("../utils/roles");
 
-    if (!allowedTypes.includes(req.accountType)) {
-      return res.status(403).json({ message: "Forbidden: You do not have access" });
+/**
+ * Role-based authorization middleware
+ * @param {...string} allowedRoles - Roles allowed to access the route
+ */
+const authorize = (...allowedRoles) => {
+  return (req, res, next) => {
+    const userRole = req.accountType;
+
+    if (!allowedRoles.includes(userRole)) {
+      console.warn(
+        `Unauthorized access attempt | UserID: ${req.userId} | Role: ${userRole} | Allowed: ${allowedRoles.join(", ")}`
+      );
+
+      return res.status(403).json({
+        success: false,
+        message: "Forbidden: You do not have access to this resource",
+      });
     }
 
     next();

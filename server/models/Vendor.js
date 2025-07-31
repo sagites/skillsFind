@@ -18,6 +18,7 @@ const VendorSchema = new mongoose.Schema({
   reviewCount: { type: Number, default: 0 },
   createdAt: { type: Date, default: Date.now },
   isVerified: { type: Boolean, default: false },
+  isDeleted: { type: Boolean, default: false },
   forgotPasswordToken: { type: String },
   forgotPasswordTokenExpiry: { type: Date },
   verifyToken: { type: String },

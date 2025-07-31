@@ -12,6 +12,7 @@ const UserSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
   isVerified: { type: Boolean, default: false },
   isVerified: { type: Boolean, default: false },
+  isDeleted: { type: Boolean, default: false },
   forgotPasswordToken: String,
   forgotPasswordTokenExpiry: Date,
   verifyToken: String,

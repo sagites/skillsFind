@@ -6,6 +6,7 @@ const auth = require("./routes/authRoutes");
 const connectDB = require("./config/db_config");
 const email = require("./routes/verifyEmail.js");
 const reviews = require("./routes/reviewRoutes.js");
+const admin = require("./routes/adminRoutes.js")
 const Bookmark = require("./routes/bookmarksRoute.js");
 const updateProfile = require("./routes/updateProfileRoutes.js");
 const forgotPassword = require("./routes/forgotPasswordRoutes.js");
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use(requestLogger);
 
 //Routes
+app.use("/api/admin", admin);
 app.use("/api/auth", auth);
 app.use("/api/email", email);
 app.use("/api/reviews", reviews);

@@ -2,6 +2,8 @@ const asyncHandler = require("express-async-handler");
 const User = require("../models/User");
 const Vendor = require("../models/Vendor");
 const { handleErrorResponse } = require("../utils/handleError");
+
+
 const updateProfile = asyncHandler(async (req, res) => {
   try {
     const { name, email, profile } = req.body;
@@ -55,4 +57,30 @@ const updateProfile = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = updateProfile;
+const deleteProfile = asyncHandler(async (req, res) => {
+  try {
+    const { accountType } = req.user;
+    const accountId = req.userId;
+
+    // Pick model dynamically
+    const Model = accountType === "vendor" ? Vendor : User;
+    const account = await Model.findById(accountId);
+
+    if (!account) {
+      return handleErrorResponse(res, 404, `${accountType} not found`);
+    }
+
+    // Soft delete: set isDeleted flag
+    account.isDeleted = true;
+    await account.save();
+
+    res.status(200).json({
+      success: true,
+      message: `${accountType} profile deleted (soft delete) successfully`,
+    });
+  } catch (error) {
+    handleErrorResponse(res, 500, error.message);
+  }
+});
+
+module.exports = {updateProfile, deleteProfile};

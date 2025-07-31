@@ -1,6 +1,5 @@
 const jwt = require("jsonwebtoken");
-const User = require("../models/User");
-const Vendor = require("../models/Vendor");
+const getAccountType = require("../utils/getAccountType");
 
 const protect = async (req, res, next) => {
   let token;
@@ -22,28 +21,9 @@ const protect = async (req, res, next) => {
     // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // Try to find user in both collections
-    // let account = await User.findById(decoded.userId).select("-password");
-    // let accountType = "user";
+    const { account, accountType } = await getAccountType(decoded.userId);
 
-    // if (!account) {
-    //   account = await Vendor.findById(decoded.userId).select("-password");
-    //   accountType = account ? "vendor" : null;
-    // }
-
-    let account;
-    let accountType = null;
-
-    account = await User.findById(decoded.userId).select("-password");
-
-    if (account) {
-      accountType = "user";
-    } else {
-      account = await Vendor.findById(decoded.userId).select("-password");
-      if (account) accountType = "vendor";
-    }
-
-    // If account doesn't exist in either collection
+    // If account doesn't exist in any collection
     if (!account || !accountType) {
       return res.status(401).json({ msg: "Account not found" });
     }
@@ -53,8 +33,7 @@ const protect = async (req, res, next) => {
     req.userId = account._id;
     req.accountType = accountType;
 
-
-     // Log for testing
+    //Log for testing
     console.log("Authenticated Request:");
     console.log("User ID:", req.userId.toString());
     console.log("Account Type:", req.accountType);

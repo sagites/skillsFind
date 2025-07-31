@@ -8,7 +8,7 @@ const protect = require("../middleware/protect");
 
 router
   .route("/")
-  .get(protect, authorize("user"), listAllServiceProviders)
+  .get(protect, authorize("user", "admin", "superadmin"), listAllServiceProviders)
   .post(protect, authorize("user"), getServiceProvider);
 
 module.exports = router;

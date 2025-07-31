@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const protect = require("../middleware/protect");
+const ROLES = require("../utils/roles");
 const { authorize } = require("../middleware/roleMiddleware");
 const {
   bookmarkProfile,
@@ -9,8 +10,8 @@ const {
 
 router
   .route("/")
-  .post(protect, authorize("user"), bookmarkProfile)
-  .delete(protect, authorize("user"), removeBookmark)
-  .get(protect, authorize("user"), getBookmarkedProfiles);
+  .post(protect, authorize(ROLES.USER), bookmarkProfile)
+  .delete(protect, authorize(ROLES.USER), removeBookmark)
+  .get(protect, authorize(ROLES.USER), getBookmarkedProfiles);
 
 module.exports = router;

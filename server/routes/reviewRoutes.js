@@ -9,7 +9,7 @@ const {
 
 router
   .route("/vendor/:vendorId")
-  .post(protect, authorize("user"), createReview)
+  .post(protect, authorize(ROLES.USER), createReview)
   .get(protect, authorize(ROLES.VENDOR, ROLES.USER, ROLES.ADMIN, ROLES.SUPERADMIN), getReviews);
 
 module.exports = router;

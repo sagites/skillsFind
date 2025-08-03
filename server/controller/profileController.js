@@ -3,6 +3,29 @@ const User = require("../models/User");
 const Vendor = require("../models/Vendor");
 const { handleErrorResponse } = require("../utils/handleError");
 
+const getProfile = asyncHandler(async (req, res) => {
+  try {
+    const accountId = req.userId;
+    const { accountType } = req.user;
+
+    console.log(accountId, "this is the accountID");
+
+    const Model = accountType === "vendor" ? Vendor : User;
+    const account = await Model.findById(accountId);
+
+    if (!account) {
+      return handleErrorResponse(res, 404, `Account not found`);
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Profile gotten successfully",
+      data: account,
+    });
+  } catch (error) {
+    handleErrorResponse(res, 500, error.message);
+  }
+});
 
 const updateProfile = asyncHandler(async (req, res) => {
   try {
@@ -83,4 +106,4 @@ const deleteProfile = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = {updateProfile, deleteProfile};
+module.exports = { getProfile, updateProfile, deleteProfile };

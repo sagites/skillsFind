@@ -3,7 +3,7 @@ const User = require("../models/User");
 const Vendor = require("../models/Vendor");
 const { handleErrorResponse } = require("../utils/handleError");
 
-const getProfile = asyncHandler(async (req, res) => {
+const getProfile = asyncHandler(async (req, res, next) => {
   try {
     const accountId = req.userId;
     const { accountType } = req.user;
@@ -23,7 +23,7 @@ const getProfile = asyncHandler(async (req, res) => {
       data: account,
     });
   } catch (error) {
-    handleErrorResponse(res, 500, error.message);
+    handleErrorResponse(res, next, 500, error.message);
   }
 });
 
@@ -76,7 +76,7 @@ const updateProfile = asyncHandler(async (req, res) => {
       },
     });
   } catch (error) {
-    handleErrorResponse(res, 500, error.message);
+    handleErrorResponse(res, 500, error.message, next);
   }
 });
 

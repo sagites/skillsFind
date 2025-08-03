@@ -8,7 +8,7 @@ const email = require("./routes/verifyEmail.js");
 const reviews = require("./routes/reviewRoutes.js");
 const admin = require("./routes/adminRoutes.js")
 const Bookmark = require("./routes/bookmarksRoute.js");
-const updateProfile = require("./routes/updateProfileRoutes.js");
+const updateProfile = require("./routes/profileRoutes.js");
 const forgotPassword = require("./routes/forgotPasswordRoutes.js");
 const { requestLogger, errorLogger } = require("./middleware/logger");
 const listAllServiceProviders = require("./routes/listAllServiceProvidersRoutes.js");
@@ -23,7 +23,7 @@ app.use("/api/auth", auth);
 app.use("/api/email", email);
 app.use("/api/reviews", reviews);
 app.use("/api/bookmark", Bookmark);
-app.use("/api/updateProfile", updateProfile);
+app.use("/api/profile", updateProfile);
 app.use("/api/forgot-password", forgotPassword);
 app.use("/api/serviceProvidersList", listAllServiceProviders);
 

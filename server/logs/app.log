@@ -71,3 +71,24 @@
 [2025-08-03T12:11:18.314Z] INFO: POST /api/auth/login | Status: 200 | User: Guest | AccountType: N/A | Duration: 299ms
 [2025-08-03T12:11:30.362Z] INFO: GET /api/profile | Status: 500 | User: 688917f26e0bc65bae76dd4b | AccountType: user | Duration: 61ms
 [2025-08-03T12:12:17.909Z] INFO: GET /api/profile | Status: 200 | User: 688917f26e0bc65bae76dd4b | AccountType: user | Duration: 72ms
+[2025-08-03T12:46:00.470Z] INFO: GET /api/profile | Status: 401 | User: Guest | AccountType: N/A | Duration: 49ms
+[2025-08-03T12:47:14.208Z] INFO: GET /api/random | Status: 404 | User: Guest | AccountType: N/A | Duration: 8ms
+[2025-08-03T12:49:39.973Z] INFO: PUT /api/profile | Status: 404 | User: 6888e4bfce76584602ea026e | AccountType: vendor | Duration: 131ms
+[2025-08-03T12:51:03.791Z] INFO: PUT /api/profile | Status: 404 | User: 6888e4bfce76584602ea026e | AccountType: vendor | Duration: 69ms
+[2025-08-03T12:51:14.468Z] INFO: GET /api/random | Status: 404 | User: Guest | AccountType: N/A | Duration: 4ms
+[2025-08-03T12:51:28.089Z] INFO: GET /api/random | Status: 404 | User: Guest | AccountType: N/A | Duration: 1ms
+[2025-08-03T12:51:38.494Z] INFO: GET /api/profile | Status: 500 | User: 688917f26e0bc65bae76dd4b | AccountType: user | Duration: 23ms
+[2025-08-03T13:12:11.417Z] INFO: GET /api/profile | Status: 401 | User: Guest | AccountType: N/A | Duration: 18ms
+[2025-08-03T13:12:42.360Z] INFO: POST /api/auth/login | Status: 200 | User: Guest | AccountType: N/A | Duration: 406ms
+[2025-08-03T13:12:59.361Z] ERROR: GET /api/profile | Status: 500 | User: 688917f26e0bc65bae76dd4b | AccountType: user | Message: next is not defined
+[2025-08-03T13:12:59.367Z] INFO: GET /api/profile | Status: 500 | User: 688917f26e0bc65bae76dd4b | AccountType: user | Duration: 24ms
+[2025-08-03T13:30:30.546Z] INFO: GET /api/profile | Status: 200 | User: 688917f26e0bc65bae76dd4b | AccountType: user | Duration: 59ms
+[2025-08-03T13:32:02.289Z] ERROR: GET /api/profile | Status: 500 | User: 688917f26e0bc65bae76dd4b | AccountType: user | Message: res.status.json is not a function
+[2025-08-03T13:32:02.334Z] INFO: GET /api/profile | Status: 500 | User: 688917f26e0bc65bae76dd4b | AccountType: user | Duration: 180ms
+[2025-08-03T13:32:41.449Z] INFO: GET /api/profile | Status: 200 | User: 688917f26e0bc65bae76dd4b | AccountType: user | Duration: 136ms
+[2025-08-03T13:36:29.023Z] ERROR: GET /api/profile | Status: 500 | User: 688917f26e0bc65bae76dd4b | AccountType: user | Message: next is not defined
+[2025-08-03T13:36:29.041Z] INFO: GET /api/profile | Status: 500 | User: 688917f26e0bc65bae76dd4b | AccountType: user | Duration: 70ms
+[2025-08-03T13:40:06.379Z] ERROR: GET /api/profile | Status: 500 | User: 688917f26e0bc65bae76dd4b | AccountType: user | Message: next is not a function
+[2025-08-03T13:40:06.396Z] INFO: GET /api/profile | Status: 500 | User: 688917f26e0bc65bae76dd4b | AccountType: user | Duration: 70ms
+[2025-08-03T13:43:19.800Z] ERROR: GET /api/profile | Status: 500 | User: 688917f26e0bc65bae76dd4b | AccountType: user | Message: res.status.json is not a function
+[2025-08-03T13:43:19.818Z] INFO: GET /api/profile | Status: 500 | User: 688917f26e0bc65bae76dd4b | AccountType: user | Duration: 79ms

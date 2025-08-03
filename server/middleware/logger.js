@@ -44,12 +44,22 @@ const requestLogger = (req, res, next) => {
   next();
 };
 
-// Error logging middleware
+// Enhanced error logging middleware
 const errorLogger = (err, req, res, next) => {
-  const logMessage = `ERROR: ${req.method} ${req.originalUrl} | User: ${
-    req.userId || "Guest"
-  } | AccountType: ${req.accountType || "N/A"} | Message: ${err.message}`;
-  logger.error(logMessage);
+  const status = res.statusCode >= 400 ? res.statusCode : 500;
+  const logMessage = `${req.method} ${
+    req.originalUrl
+  } | Status: ${status} | User: ${req.userId || "Guest"} | AccountType: ${
+    req.accountType || "N/A"
+  } | Message: ${err.message}`;
+
+  if (status >= 500) {
+    logger.error(logMessage);
+  } else if (status >= 400) {
+    logger.warn(logMessage);
+  } else {
+    logger.info(logMessage);
+  }
   next(err); // Pass to the default error handler
 };
 

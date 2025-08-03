@@ -10,6 +10,7 @@ const admin = require("./routes/adminRoutes.js")
 const Bookmark = require("./routes/bookmarksRoute.js");
 const updateProfile = require("./routes/profileRoutes.js");
 const forgotPassword = require("./routes/forgotPasswordRoutes.js");
+const errorHandler = require("./middleware/errorHandler");
 const { requestLogger, errorLogger } = require("./middleware/logger");
 const listAllServiceProviders = require("./routes/listAllServiceProvidersRoutes.js");
 
@@ -28,6 +29,7 @@ app.use("/api/forgot-password", forgotPassword);
 app.use("/api/serviceProvidersList", listAllServiceProviders);
 
 app.use(errorLogger); // Logs errors after routes
+app.use(errorHandler); // Global error handler
 
 const PORT = process.env.PORT || 2500;
 

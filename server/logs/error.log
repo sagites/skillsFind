@@ -1,1 +1,6 @@
 [2025-07-31T17:47:37.998Z] ERROR: ERROR: POST /api/admin/login | User: Guest | AccountType: N/A | Message: handleErrorResponse is not a function
+[2025-08-03T13:12:59.361Z] ERROR: GET /api/profile | Status: 500 | User: 688917f26e0bc65bae76dd4b | AccountType: user | Message: next is not defined
+[2025-08-03T13:32:02.289Z] ERROR: GET /api/profile | Status: 500 | User: 688917f26e0bc65bae76dd4b | AccountType: user | Message: res.status.json is not a function
+[2025-08-03T13:36:29.023Z] ERROR: GET /api/profile | Status: 500 | User: 688917f26e0bc65bae76dd4b | AccountType: user | Message: next is not defined
+[2025-08-03T13:40:06.379Z] ERROR: GET /api/profile | Status: 500 | User: 688917f26e0bc65bae76dd4b | AccountType: user | Message: next is not a function
+[2025-08-03T13:43:19.800Z] ERROR: GET /api/profile | Status: 500 | User: 688917f26e0bc65bae76dd4b | AccountType: user | Message: res.status.json is not a function

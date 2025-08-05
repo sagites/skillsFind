@@ -92,3 +92,7 @@
 [2025-08-03T13:40:06.396Z] INFO: GET /api/profile | Status: 500 | User: 688917f26e0bc65bae76dd4b | AccountType: user | Duration: 70ms
 [2025-08-03T13:43:19.800Z] ERROR: GET /api/profile | Status: 500 | User: 688917f26e0bc65bae76dd4b | AccountType: user | Message: res.status.json is not a function
 [2025-08-03T13:43:19.818Z] INFO: GET /api/profile | Status: 500 | User: 688917f26e0bc65bae76dd4b | AccountType: user | Duration: 79ms
+[2025-08-05T18:50:50.205Z] INFO: POST /api/admin/login | Status: 200 | User: Guest | AccountType: N/A | Duration: 706ms
+[2025-08-05T18:54:48.017Z] ERROR: POST /api/admin/add-vendor | Status: 500 | User: 688baaf43e94d1c76e9f1366 | AccountType: superadmin | Message: phone is not defined
+[2025-08-05T18:54:48.020Z] INFO: POST /api/admin/add-vendor | Status: 500 | User: 688baaf43e94d1c76e9f1366 | AccountType: superadmin | Duration: 244ms
+[2025-08-05T18:55:32.112Z] INFO: POST /api/admin/add-vendor | Status: 201 | User: 688baaf43e94d1c76e9f1366 | AccountType: superadmin | Duration: 530ms

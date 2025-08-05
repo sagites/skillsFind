@@ -11,17 +11,20 @@ const adminSignup = asyncHandler(async (req, res, next) => {
     const { name, email, password, confirmPassword, role } = req.body;
 
     if (!name || !email || !password || !confirmPassword || !role) {
-      return res.status(400).json({ message: "Please input all fields" });
+      return handleErrorResponse(res, next, 400, "Please input all fields");
     }
 
     if (password.length < 6) {
-      return res
-        .status(400)
-        .json({ message: "Password should be at least 6 characters long" });
+      return handleErrorResponse(
+        res,
+        next,
+        400,
+        "Passwords should be more than 6 characters"
+      );
     }
 
     if (confirmPassword !== password) {
-      return res.status(400).json({ message: "Passwords do not match" });
+      return handleErrorResponse(res, next, 400, "Passwords do not match");
     }
 
     const existingAdmin = await Admin.findOne({ email });
@@ -62,7 +65,7 @@ const adminLogin = asyncHandler(async (req, res, next) => {
     let userType = admin.role;
 
     if (!admin) {
-      return handleErrorResponse(res, 404, "Admin not found");
+      return handleErrorResponse(res, next,404, "Admin not found");
     }
 
     const isPasswordValid = await checkPassword(password, admin.password);

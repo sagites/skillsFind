@@ -1,11 +1,12 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const Vendor = require("../models/Vendor");
-const {sendSignUpEmail} = require("../utils/mailer");
+const { sendSignUpEmail } = require("../utils/mailer");
 const asyncHandler = require("express-async-handler");
+const { handleErrorResponse } = require("../utils/handleError");
 const { hashPassword, checkPassword } = require("../utils/hassPassword");
 
-const Signup = asyncHandler(async (req, res) => {
+const Signup = asyncHandler(async (req, res, next) => {
   try {
     const {
       name,
@@ -19,7 +20,7 @@ const Signup = asyncHandler(async (req, res) => {
     } = req.body;
 
     if (!email || !name || !password || !confirmPassword || !phone || !city) {
-      return res.status(400).json({ message: "Please input missing field(s)" });
+      return handleErrorResponse(res, next, 400, "Please input all fields");
     }
 
     // Check if email already exists in either collection
@@ -31,13 +32,16 @@ const Signup = asyncHandler(async (req, res) => {
     }
 
     if (password.length < 6) {
-      return res
-        .status(400)
-        .json({ message: "Password should be at least 6 characters long" });
+      return handleErrorResponse(
+        res,
+        next,
+        400,
+        "Passwords should be more than 6 characters"
+      );
     }
 
     if (confirmPassword !== password) {
-      return res.status(400).json({ message: "Passwords do not match" });
+      return handleErrorResponse(res, next, 400, "Passwords do not match");
     }
 
     const hashedPassword = await hashPassword(password);
@@ -59,7 +63,12 @@ const Signup = asyncHandler(async (req, res) => {
       });
       userType = "vendor";
     } else {
-      newUser = new User({ email, name, password: hashedPassword, role: "user" });
+      newUser = new User({
+        email,
+        name,
+        password: hashedPassword,
+        role: "user",
+      });
       userType = "user";
     }
 
@@ -71,20 +80,21 @@ const Signup = asyncHandler(async (req, res) => {
     res.status(201).json({ message: `${userType} registered successfully` });
   } catch (error) {
     console.error("Signup Error:", error);
-    res
-      .status(500)
-      .json({ message: "Internal server error", error: error.message });
+    handleErrorResponse(res, next, 500, error.message);
   }
 });
 
-const Login = asyncHandler(async (req, res) => {
+const Login = asyncHandler(async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res
-        .status(400)
-        .json({ message: "Email and password are required" });
+      return handleErrorResponse(
+        res,
+        next,
+        400,
+        "Email and password are required"
+      );
     }
 
     let user = await User.findOne({ email });
@@ -96,12 +106,12 @@ const Login = asyncHandler(async (req, res) => {
     }
 
     if (!user) {
-      return res.status(401).json({ message: "Invalid credentials" }); // 401 Unauthorized
+      return handleErrorResponse(res, next, 404, "Admin not found");
     }
 
     const isPasswordValid = await checkPassword(password, user.password);
     if (!isPasswordValid) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      return handleErrorResponse(res, next, 401, "Invalid credentials");
     }
 
     const token = jwt.sign(
@@ -115,9 +125,7 @@ const Login = asyncHandler(async (req, res) => {
     res.status(200).json({ message: "Login successful", token, userType });
   } catch (error) {
     console.error("Login Error:", error);
-    res
-      .status(500)
-      .json({ message: "Internal server error", error: error.message });
+    handleErrorResponse(res, next, 500, error.message);
   }
 });
 

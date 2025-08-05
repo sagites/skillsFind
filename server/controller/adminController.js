@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const Admin = require("../models/admin");
+const Vendor = require("../models/Vendor");
 const asyncHandler = require("express-async-handler");
 const { handleErrorResponse } = require("../utils/handleError");
 const { hashPassword, checkPassword } = require("../utils/hassPassword");
@@ -136,6 +137,76 @@ const deleteAdmin = asyncHandler(async (req, res) => {
   }
 });
 
+const addNewVendor = asyncHandler(async (req, res, next) => {
+  try {
+    const {
+      name,
+      email,
+      occupation,
+      experience,
+      city,
+      phone,
+      password,
+      confirmPassword,
+    } = req.body;
+
+    if (
+      !name ||
+      !email ||
+      !occupation ||
+      !experience ||
+      !password ||
+      !confirmPassword ||
+      !city ||
+      !phone
+    ) {
+      return handleErrorResponse(res, next, 400, "Please input all fields");
+    }
+
+    if (password.length < 6) {
+      return handleErrorResponse(
+        res,
+        next,
+        400,
+        "Password should be at least 6 characters long"
+      );
+    }
+
+    if (confirmPassword !== password) {
+      return handleErrorResponse(res, next, 400, "Passwords do not match");
+    }
+
+    const existingUser = await User.findOne({ email });
+    const existingVendor = await Vendor.findOne({ email });
+
+    if (existingUser || existingVendor) {
+      return handleErrorResponse(res, next, 409, "Email is already registered");
+    }
+
+    const hashedPassword = await hashPassword(password);
+    const newVendor = new Vendor({
+      name,
+      email,
+      password: hashedPassword,
+      role: "vendor",
+      profile: {
+        occupation: occupation || "N/A",
+        experience: experience || 0,
+        phone: phone,
+        city: city,
+      },
+      isVerified: true,
+      isDeleted: false,
+    });
+
+    await newVendor.save();
+    res.status(201).json({ message: "Vendor created successfully" });
+  } catch (error) {
+    console.error("Create Vendor Error:", error);
+    handleErrorResponse(res, next, 500, error.message);
+  }
+});
+
 const getAllUsers = asyncHandler(async (req, res) => {
   try {
     const users = await User.find(
@@ -153,5 +224,6 @@ module.exports = {
   addNewAdmin,
   deleteAdmin,
   adminLogin,
+  addNewVendor,
   getAllUsers,
 };

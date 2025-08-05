@@ -102,3 +102,10 @@
 [2025-08-05T19:11:52.871Z] ERROR: POST /api/admin/add-user | Status: 500 | User: 688baaf43e94d1c76e9f1366 | AccountType: superadmin | Message: Email is already registered
 [2025-08-05T19:11:52.890Z] INFO: POST /api/admin/add-user | Status: 409 | User: 688baaf43e94d1c76e9f1366 | AccountType: superadmin | Duration: 79ms
 [2025-08-05T19:12:16.377Z] INFO: POST /api/admin/add-user | Status: 201 | User: 688baaf43e94d1c76e9f1366 | AccountType: superadmin | Duration: 357ms
+[2025-08-05T19:31:05.459Z] INFO: POST /api/admin/login | Status: 200 | User: Guest | AccountType: N/A | Duration: 293ms
+[2025-08-05T19:31:23.933Z] INFO: POST /api/admin/signup | Status: 409 | User: Guest | AccountType: N/A | Duration: 7ms
+[2025-08-05T19:32:08.533Z] INFO: POST /api/admin/signup | Status: 409 | User: Guest | AccountType: N/A | Duration: 45ms
+[2025-08-05T19:32:49.179Z] INFO: POST /api/admin/signup | Status: 201 | User: Guest | AccountType: N/A | Duration: 376ms
+[2025-08-05T19:33:23.312Z] INFO: POST /api/admin/signup | Status: 409 | User: Guest | AccountType: N/A | Duration: 106ms
+[2025-08-05T19:33:48.978Z] ERROR: POST /api/admin/signup | Status: 500 | User: Guest | AccountType: N/A | Message: next is not a function
+[2025-08-05T19:33:48.987Z] INFO: POST /api/admin/signup | Status: 500 | User: Guest | AccountType: N/A | Duration: 496ms

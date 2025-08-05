@@ -7,3 +7,4 @@
 [2025-08-05T18:54:48.017Z] ERROR: POST /api/admin/add-vendor | Status: 500 | User: 688baaf43e94d1c76e9f1366 | AccountType: superadmin | Message: phone is not defined
 [2025-08-05T19:10:48.554Z] ERROR: POST /api/admin/add-user | Status: 500 | User: 688baaf43e94d1c76e9f1366 | AccountType: superadmin | Message: Email is already registered
 [2025-08-05T19:11:52.871Z] ERROR: POST /api/admin/add-user | Status: 500 | User: 688baaf43e94d1c76e9f1366 | AccountType: superadmin | Message: Email is already registered
+[2025-08-05T19:33:48.978Z] ERROR: POST /api/admin/signup | Status: 500 | User: Guest | AccountType: N/A | Message: next is not a function

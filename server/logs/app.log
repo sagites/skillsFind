@@ -96,3 +96,9 @@
 [2025-08-05T18:54:48.017Z] ERROR: POST /api/admin/add-vendor | Status: 500 | User: 688baaf43e94d1c76e9f1366 | AccountType: superadmin | Message: phone is not defined
 [2025-08-05T18:54:48.020Z] INFO: POST /api/admin/add-vendor | Status: 500 | User: 688baaf43e94d1c76e9f1366 | AccountType: superadmin | Duration: 244ms
 [2025-08-05T18:55:32.112Z] INFO: POST /api/admin/add-vendor | Status: 201 | User: 688baaf43e94d1c76e9f1366 | AccountType: superadmin | Duration: 530ms
+[2025-08-05T19:10:48.554Z] ERROR: POST /api/admin/add-user | Status: 500 | User: 688baaf43e94d1c76e9f1366 | AccountType: superadmin | Message: Email is already registered
+[2025-08-05T19:10:48.577Z] INFO: POST /api/admin/add-user | Status: 409 | User: 688baaf43e94d1c76e9f1366 | AccountType: superadmin | Duration: 83ms
+[2025-08-05T19:11:09.140Z] INFO: POST /api/admin/add-user | Status: 201 | User: 688baaf43e94d1c76e9f1366 | AccountType: superadmin | Duration: 296ms
+[2025-08-05T19:11:52.871Z] ERROR: POST /api/admin/add-user | Status: 500 | User: 688baaf43e94d1c76e9f1366 | AccountType: superadmin | Message: Email is already registered
+[2025-08-05T19:11:52.890Z] INFO: POST /api/admin/add-user | Status: 409 | User: 688baaf43e94d1c76e9f1366 | AccountType: superadmin | Duration: 79ms
+[2025-08-05T19:12:16.377Z] INFO: POST /api/admin/add-user | Status: 201 | User: 688baaf43e94d1c76e9f1366 | AccountType: superadmin | Duration: 357ms

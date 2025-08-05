@@ -207,6 +207,54 @@ const addNewVendor = asyncHandler(async (req, res, next) => {
   }
 });
 
+const addNewUser = asyncHandler(async (req, res, next) => {
+  try {
+    const { name, email, phone, password, confirmPassword } = req.body;
+
+    if (!name || !email || !password || !confirmPassword || !phone) {
+      return handleErrorResponse(res, next, 400, "Please input all fields");
+    }
+
+    if (password.length < 6) {
+      return handleErrorResponse(
+        res,
+        next,
+        400,
+        "Password should be at least 6 characters long"
+      );
+    }
+
+    if (confirmPassword !== password) {
+      return handleErrorResponse(res, next, 400, "Passwords do not match");
+    }
+
+    const existingUser = await User.findOne({ email });
+    const existingVendor = await Vendor.findOne({ email });
+
+    if (existingUser || existingVendor) {
+      return handleErrorResponse(res, next, 409, "Email is already registered");
+    }
+
+    const hashedPassword = await hashPassword(password);
+    const newUser = new User({
+      name,
+      email,
+      password: hashedPassword,
+      profile: {
+        phone: phone,
+      },
+      isVerified: true,
+      isDeleted: false,
+    });
+
+    await newUser.save();
+    res.status(201).json({ message: "User created successfully" });
+  } catch (error) {
+    console.error("Create User Error:", error);
+    handleErrorResponse(res, next, 500, error.message);
+  }
+});
+
 const getAllUsers = asyncHandler(async (req, res) => {
   try {
     const users = await User.find(
@@ -225,5 +273,6 @@ module.exports = {
   deleteAdmin,
   adminLogin,
   addNewVendor,
+  addNewUser,
   getAllUsers,
 };

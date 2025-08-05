@@ -8,6 +8,7 @@ const {
   adminLogin,
   deleteAdmin,
   addNewVendor,
+  addNewUser,
   getAllUsers,
 } = require("../controller/adminController");
 
@@ -15,7 +16,8 @@ router.post("/login", adminLogin)
       .post("/signup", adminSignup);
 router.post("/add-admin", protect, authorize(ROLES.SUPERADMIN), addNewAdmin);
 router.post("/add-vendor", protect, authorize(ROLES.SUPERADMIN), addNewVendor);
+router.post("/add-user", protect, authorize(ROLES.SUPERADMIN), addNewUser);
 router.delete("/remove-admin/:adminId", protect, authorize(ROLES.SUPERADMIN), deleteAdmin);
-router.route("/users/").get(protect, authorize(ROLES.ADMIN, ROLES.SUPERADMIN), getAllUsers);
+router.get("/users/", protect, authorize(ROLES.ADMIN, ROLES.SUPERADMIN), getAllUsers);
 
 module.exports = router;

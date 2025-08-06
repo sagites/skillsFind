@@ -1,31 +1,36 @@
-const { sendSignUpEmail } = require("../utils/mailer");
-const Vendor = require("../models/Vendor");
 const User = require("../models/User");
-const {hashPassword} = require("../utils/hassPassword");
-const { handleErrorResponse } = require("../utils/handleError")
+const Vendor = require("../models/Vendor");
+const { sendSignUpEmail } = require("../utils/mailer");
+const { hashPassword } = require("../utils/hassPassword");
+const { handleErrorResponse } = require("../utils/handleError");
 
 // Forgot Password Controller
-const forgotPassword = async (req, res) => {
+const forgotPassword = async (req, res, next) => {
   const { email } = req.body;
 
   if (!email) {
-    return handleErrorResponse(res, 400, "Email is required");
+    return handleErrorResponse(res, next, 400, "Email is required");
   }
 
   try {
     const result = await sendSignUpEmail(email, "FORGOT");
     res.status(200).json({ success: true, message: result.message });
   } catch (error) {
-    handleErrorResponse(res, 500, error.message);
+    handleErrorResponse(res, next, 500, error.message);
   }
 };
 
 // Change Password Controller
-const changePassword = async (req, res) => {
+const changePassword = async (req, res, next) => {
   const { token, newPassword } = req.body;
 
   if (!token || !newPassword) {
-    return handleErrorResponse(res, 400, "Token and new password are required");
+    return handleErrorResponse(
+      res,
+      next,
+      400,
+      "Token and new password are required"
+    );
   }
 
   try {
@@ -38,7 +43,7 @@ const changePassword = async (req, res) => {
     }
 
     if (!user || user.forgotPasswordTokenExpiry < Date.now()) {
-      return handleErrorResponse(res, 400, "Invalid or expired token");
+      return handleErrorResponse(res, next, 400, "Invalid or expired token");
     }
 
     const hashedPassword = await hashPassword(newPassword);
@@ -49,9 +54,11 @@ const changePassword = async (req, res) => {
 
     await user.save();
 
-    res.status(200).json({ success: true, message: "Password changed successfully" });
+    res
+      .status(200)
+      .json({ success: true, message: "Password changed successfully" });
   } catch (error) {
-    handleErrorResponse(res, 500, error.message);
+    handleErrorResponse(res, next, 500, error.message);
   }
 };
 

@@ -12,7 +12,6 @@ const protect = async (req, res, next) => {
     token = req.headers.authorization.split(" ")[1];
   }
 
-  // No token found
   if (!token) {
     return res.status(401).json({ msg: "Not authorized to access this route" });
   }

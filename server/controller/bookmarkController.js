@@ -1,89 +1,88 @@
-const asyncHandler = require("express-async-handler");
 const mongoose = require("mongoose");
-const Bookmark = require("../models/bookmarks")
+const Bookmark = require("../models/bookmarks");
 const Vendor = require("../models/Vendor");
 const { handleErrorResponse } = require("../utils/handleError");
 
 // Bookmark a Profile
-const bookmarkProfile = asyncHandler(async (req, res) => {
+const bookmarkProfile = async (req, res, next) => {
   const { profileId } = req.body;
   const userId = req.user._id;
 
-  // Validate profileId format
   if (!mongoose.Types.ObjectId.isValid(profileId)) {
-    return handleErrorResponse(res, 400, "Invalid profile ID");
+    return handleErrorResponse(res, next, 400, "Invalid profile ID");
   }
 
-  // Check if profile exists
-  const profileExists = await Vendor.findById(profileId);
-  if (!profileExists) {
-    return handleErrorResponse(res, 404, "Profile not found");
-  }
+  try {
+    // Check if vendor exists + already bookmarked in parallel
+    const [profileExists, alreadyBookmarked] = await Promise.all([
+      Vendor.exists({ _id: profileId }),
+      Bookmark.exists({ userId, bookmarkedProfile: profileId }),
+    ]);
 
-  // Check if already bookmarked
-  const alreadyBookmarked = await Bookmark.findOne({
-    userId,
-    bookmarkedProfile: profileId,
-  });
-  if (alreadyBookmarked) {
-    return handleErrorResponse(res, 400, "Profile already bookmarked");
-  }
+    if (!profileExists) {
+      return handleErrorResponse(res, next, 404, "Profile not found");
+    }
 
-  // Create bookmark
-  const bookmark = new Bookmark({ userId, bookmarkedProfile: profileId });
-  await bookmark.save();
+    if (alreadyBookmarked) {
+      return handleErrorResponse(res, next, 400, "Profile already bookmarked");
+    }
 
-  res
-    .status(201)
-    .json({
+    // Create bookmark
+    const bookmark = await Bookmark.create({ userId, bookmarkedProfile: profileId });
+
+    res.status(201).json({
       success: true,
       message: "Profile bookmarked successfully",
       bookmark,
     });
-});
+  } catch (error) {
+    handleErrorResponse(res, next, 500, error.message);
+  }
+};
 
 // Remove a Bookmark
-const removeBookmark = asyncHandler(async (req, res) => {
+const removeBookmark = async (req, res, next) => {
   const { profileId } = req.body;
   const userId = req.user._id;
 
   if (!mongoose.Types.ObjectId.isValid(profileId)) {
-    return handleErrorResponse(res, 400, "Invalid profile ID");
+    return handleErrorResponse(res, next, 400, "Invalid profile ID");
   }
 
-  const bookmark = await Bookmark.findOneAndDelete({
-    userId,
-    bookmarkedProfile: profileId,
-  });
+  try {
+    await Bookmark.deleteOne({ userId, bookmarkedProfile: profileId });
 
-  if (!bookmark) {
-    return handleErrorResponse(res, 404, "Bookmark not found");
+    // Always return success (idempotent)
+    res.status(200).json({
+      success: true,
+      message: "Bookmark removed successfully",
+    });
+  } catch (error) {
+    handleErrorResponse(res, next, 500, error.message);
   }
-
-  res
-    .status(200)
-    .json({ success: true, message: "Bookmark removed successfully" });
-});
+};
 
 // Get All Bookmarked Profiles for a User
-const getBookmarkedProfiles = asyncHandler(async (req, res) => {
+const getBookmarkedProfiles = async (req, res, next) => {
   const userId = req.user._id;
 
-  const bookmarks = await Bookmark.find({ userId })
-    .populate("bookmarkedProfile", "name email profile")
-    .lean();
+  try {
+    const bookmarks = await Bookmark.find({ userId })
+      .populate("bookmarkedProfile", "name email profile -_id") // only needed fields
+      .lean();
 
-  if (bookmarks.length === 0) {
-    return handleErrorResponse(res, 404, "No bookmarks found");
-  }
-
-  res
-    .status(200)
-    .json({
+    res.status(200).json({
       success: true,
-      message: "Bookmarked profiles retrieved",
+      message: bookmarks.length > 0 ? "Bookmarked profiles retrieved" : "No bookmarks found",
       bookmarks,
     });
-});
+  } catch (error) {
+    handleErrorResponse(res, next, 500, error.message);
+  }
+};
 
-module.exports = { bookmarkProfile, removeBookmark, getBookmarkedProfiles };
+module.exports = {
+  bookmarkProfile,
+  removeBookmark,
+  getBookmarkedProfiles,
+};

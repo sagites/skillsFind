@@ -1,6 +1,6 @@
-const asyncHandler = require("express-async-handler");
 const User = require("../models/User");
 const Vendor = require("../models/Vendor");
+const asyncHandler = require("express-async-handler");
 const { handleErrorResponse } = require("../utils/handleError");
 
 const getProfile = asyncHandler(async (req, res, next) => {
@@ -38,14 +38,14 @@ const updateProfile = asyncHandler(async (req, res) => {
     const account = await Model.findById(accountId);
 
     if (!account) {
-      return handleErrorResponse(res, 404, `${accountType} not found`);
+      return handleErrorResponse(res, next, 404, `${accountType} not found`);
     }
 
     // Check if email is being updated and ensure it's unique
     if (email && email !== account.email) {
       const emailExists = await Model.findOne({ email });
       if (emailExists) {
-        return handleErrorResponse(res, 400, "Email is already in use");
+        return handleErrorResponse(res, next, 400, "Email is already in use");
       }
       account.email = email;
     }
@@ -76,11 +76,11 @@ const updateProfile = asyncHandler(async (req, res) => {
       },
     });
   } catch (error) {
-    handleErrorResponse(res, 500, error.message, next);
+    handleErrorResponse(res, next, 500, error.message);
   }
 });
 
-const deleteProfile = asyncHandler(async (req, res) => {
+const deleteProfile = asyncHandler(async (req, res, next) => {
   try {
     const { accountType } = req.user;
     const accountId = req.userId;
@@ -90,7 +90,7 @@ const deleteProfile = asyncHandler(async (req, res) => {
     const account = await Model.findById(accountId);
 
     if (!account) {
-      return handleErrorResponse(res, 404, `${accountType} not found`);
+      return handleErrorResponse(res, next, 404, `${accountType} not found`);
     }
 
     // Soft delete: set isDeleted flag
@@ -102,7 +102,7 @@ const deleteProfile = asyncHandler(async (req, res) => {
       message: `${accountType} profile deleted (soft delete) successfully`,
     });
   } catch (error) {
-    handleErrorResponse(res, 500, error.message);
+    handleErrorResponse(res, next, 500, error.message);
   }
 });
 

@@ -75,7 +75,7 @@ const Signup = asyncHandler(async (req, res, next) => {
     await newUser.save();
 
     // Send verification email
-    await sendSignUpEmail(email, "VERIFY", newUser._id, userType);
+    // await sendSignUpEmail(email, "VERIFY", newUser._id, userType);
 
     res.status(201).json({ message: `${userType} registered successfully` });
   } catch (error) {

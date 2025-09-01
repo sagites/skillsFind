@@ -1,58 +1,35 @@
 const os = require("os");
-require("dotenv").config();
+const app = require("./app");
 const cluster = require("cluster");
-const express = require("express");
-const auth = require("./routes/authRoutes");
 const connectDB = require("./config/db_config");
-const email = require("./routes/verifyEmail.js");
-const reviews = require("./routes/reviewRoutes.js");
-const admin = require("./routes/adminRoutes.js")
-const Bookmark = require("./routes/bookmarksRoute.js");
-const updateProfile = require("./routes/profileRoutes.js");
-const forgotPassword = require("./routes/forgotPasswordRoutes.js");
-const errorHandler = require("./middleware/errorHandler");
-const { requestLogger, errorLogger } = require("./middleware/logger");
-const listAllServiceProviders = require("./routes/listAllServiceProvidersRoutes.js");
-
-const app = express();
-app.use(express.json());
-app.use(requestLogger);
-
-//Routes
-app.use("/api/admin", admin);
-app.use("/api/auth", auth);
-app.use("/api/email", email);
-app.use("/api/reviews", reviews);
-app.use("/api/bookmark", Bookmark);
-app.use("/api/profile", updateProfile);
-app.use("/api/forgot-password", forgotPassword);
-app.use("/api/serviceProvidersList", listAllServiceProviders);
-
-app.use(errorLogger); // Logs errors after routes
-app.use(errorHandler); // Global error handler
 
 const PORT = process.env.PORT || 2500;
+const MONGO_URL = process.env.MONGODB_URL;
 
-const start = async () => {
-  if (cluster.isMaster) {
-    const numCPUs = os.cpus().length;
-    for (let i = 0; i < numCPUs; i++) {
-      cluster.fork();
-    }
-
-    cluster.on("exit", (worker, code, signal) => {
-      console.log(`Worker ${worker.process.pid} died`);
+const startServer = async () => {
+  try {
+    await connectDB(MONGO_URL);
+    app.listen(PORT, () => {
+      console.log(`Worker ${process.pid} running on http://localhost:${PORT}`);
     });
-  } else {
-    try {
-      await connectDB(process.env.MONGODB_URL);
-      app.listen(PORT, () =>
-        console.log(`Worker ${process.pid} running on http://localhost:${PORT}`)
-      );
-    } catch (error) {
-      console.log(error);
-    }
+  } catch (error) {
+    console.error("Failed to start server:", error);
+    process.exit(1);
   }
 };
 
-start();
+if (cluster.isPrimary) {
+  const numCPUs = os.cpus().length;
+  console.log(`Primary ${process.pid} is running, forking ${numCPUs} workers...`);
+
+  for (let i = 0; i < numCPUs; i++) {
+    cluster.fork();
+  }
+
+  cluster.on("exit", (worker) => {
+    console.log(`Worker ${worker.process.pid} died. Restarting...`);
+    cluster.fork();
+  });
+} else {
+  startServer();
+}

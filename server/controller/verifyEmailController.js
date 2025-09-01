@@ -1,8 +1,8 @@
-const asyncHandler = require('express-async-handler');
-const { verifyEmail, sendSignUpEmail } = require('../utils/mailer'); // Adjust the path as necessary
-const Vendor = require("../models/Vendor");
 const User = require("../models/User");
+const Vendor = require("../models/Vendor");
+const asyncHandler = require('express-async-handler');
 const generateToken = require("../utils/generateToken");
+const { verifyEmail, sendSignUpEmail } = require('../utils/mailer');
 
 const verifyEmailMail = asyncHandler(async (req, res) => {
   const { token } = req.body;
@@ -18,7 +18,7 @@ const verifyEmailMail = asyncHandler(async (req, res) => {
   }
 });
 
-const resendEmail = asyncHandler(async (req, res) => {
+const resendEmail = asyncHandler(async (req, res, next) => {
   const { email } = req.body;
 
   try {
